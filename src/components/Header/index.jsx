@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -8,9 +8,11 @@ import {
   GridItem,
   Icon,
   Image,
+  Input,
   ListItem,
   Text,
   UnorderedList,
+  useToast,
 } from '@chakra-ui/react';
 import {
   FaAngleDown,
@@ -23,13 +25,79 @@ import {
 import './Header.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../Redux/slice/authSlice';
+import { useEffect } from 'react';
+import axiosClient from '../../api/axiosClient';
+import { useState } from 'react';
+import { useRef } from 'react';
 
 function Header() {
   const user = useSelector((state) => state.auth.user);
-
+  const [category, setCategory] = useState({});
+  const [query, setQuery] = useState();
+  const [result, setResult] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  console.log('Header user state:', user);
+  let searchRef = useRef();
+
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const res = await axiosClient.get('/api/category');
+        setCategory(res);
+      } catch (error) {
+        console.log('Failed to get category list: ', error);
+      }
+    };
+    getCategory();
+  }, []);
+
+  useEffect(() => {
+    const getSeachProduct = async () => {
+      try {
+        if (query?.length === 0) {
+          setResult(false);
+        } else {
+          const res = await axiosClient.get(`/api/search/?q=${query}`);
+          setResult(res);
+          setIsOpen(true);
+        }
+      } catch (error) {
+        console.log('Failed to get search product: ', error);
+      }
+    };
+    getSeachProduct();
+  }, [query]);
+
+  useEffect(() => {
+    let handle = (e) => {
+      if (!searchRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handle);
+    return () => {
+      document.removeEventListener('mousedown', handle);
+    };
+  }, [searchRef]);
+
+  const handleClickCart = () => {
+    if (!user.id) {
+      navigate('login');
+      return toast({
+        title: 'Thông báo',
+        description: 'Đăng nhập để thêm vào giỏ hàng.',
+        status: 'info',
+        position: 'top-right',
+        duration: 10000,
+        isClosable: true,
+      });
+    } else {
+      navigate('cart');
+    }
+  };
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -53,48 +121,91 @@ function Header() {
           </Link>
         </GridItem>
         <GridItem w={490} colSpan={2} position='relative' left={-3}>
-          <Box className='header-search'>
+          <Box className='header-search' ref={searchRef}>
             <Flex className='header__search-select'>
               <span>Tất cả danh mục</span>
               <Icon as={FaAngleDown} className='select-icon' />
               <Box>
                 <UnorderedList className='header-category'>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>iPhone</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>iPad</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>Apple Watch</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>Macbook</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>Airpods</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>iMac, PC</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>Phụ Kiện</ListItem>
-                  </Link>
-                  <Link to='/news' className='header-category-item'>
-                    <ListItem>iPhone Cũ</ListItem>
-                  </Link>
+                  {Object.keys(category).length > 0 &&
+                    category?.map((item, index) => (
+                      <Link key={index} to='/news'>
+                        <ListItem className='header-category-item'>
+                          {item?.name}
+                        </ListItem>
+                      </Link>
+                    ))}
                 </UnorderedList>
               </Box>
             </Flex>
 
-            <div className='header__search-input '>
-              <input
-                type='text'
+            <Box className='header__search-input '>
+              <Input
+                variant='unstyled'
                 placeholder='Nhập tên sản phẩm, mã sản phẩm, từ khóa'
                 style={{ border: 'none' }}
+                onChange={(e) => setQuery(e.target.value)}
               />
               <Icon as={FaSearch} className='search-icon' />
-            </div>
+            </Box>
+
+            {isOpen ? (
+              Object.keys(result).length > 0 && (
+                <Box
+                  position={'absolute'}
+                  top='42px'
+                  w='100%'
+                  maxH={'290px'}
+                  overflowY='scroll'
+                  bg={'white'}
+                  borderRadius='3px'
+                  boxShadow='0 0 6px 0 #c3c3c3'
+                  zIndex='68'>
+                  {result?.map((item, index) => (
+                    <Link to={`product/${item.id}`}>
+                      <Flex
+                        key={index}
+                        mx='5px'
+                        p={'15px 0'}
+                        justifyContent='space-between'
+                        borderBottom={'1px solid #e2e2e2'}>
+                        <Text w={'200px'} ml='15px'>
+                          {item.name}
+                        </Text>
+                        <Image
+                          boxSize={'60px'}
+                          src={item.image.slice(0, 1)}></Image>
+                        <Box>
+                          <Text
+                            mr={'15px'}
+                            px
+                            fontSize={'14px'}
+                            fontWeight='700'
+                            color='#707070'
+                            textDecoration={'line-through'}>
+                            {item.price
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
+                            đ
+                          </Text>
+                          <Text
+                            fontSize={'15px'}
+                            fontWeight='700'
+                            color='var(--primary)'>
+                            {item.discountPrice
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
+                            đ
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Link>
+                  ))}
+                </Box>
+              )
+            ) : (
+              <></>
+            )}
           </Box>
         </GridItem>
 
@@ -115,8 +226,8 @@ function Header() {
                 </Box>
               </Link>
             </Box>
-            <Box w='100%' pr={'15px'}>
-              <Link to='/news' className='icon-link'>
+            <Box w='100%' pr={'15px'} onClick={handleClickCart}>
+              <Link className='icon-link'>
                 <Icon
                   as={FaCartPlus}
                   className='header-icon'

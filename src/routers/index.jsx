@@ -12,6 +12,9 @@ import News from '../pages/News';
 import ProductDetail from '../pages/ProductDetail/ProductDetail';
 import MainLayout from '../Layouts/MainLayout';
 import EditProductForm from '../pages/AdminProduct/components/EditProduct';
+import Cart from '../pages/Cart';
+import ProductByModel from '../pages/ProductByModel';
+import ProductByCategory from '../pages/ProductByCategory';
 
 function Routers() {
   const user = useSelector((state) => state.auth.user);
@@ -25,13 +28,16 @@ function Routers() {
       ) : (
         <Route path='/' element={<MainLayout />}>
           <Route path='/' element={<Homepage />} />
+          <Route path='/cart' element={<Cart />} />
           {/* <Route path='/history' element={<HistoryOrder />} /> */}
         </Route>
       )}
       <Route path='/' element={<MainLayout />}>
         <Route path='/' element={<Homepage />} />
         <Route path='/news' element={<News />} />
+        <Route path='/:id' element={<ProductByCategory />} />
         <Route path='/product/:id' element={<ProductDetail />} />
+        <Route path='/model/:id' element={<ProductByModel />} />
         <Route path='*' element={<Homepage />} />
       </Route>
       {user.isAdmin === true ? (

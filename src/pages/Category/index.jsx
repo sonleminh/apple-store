@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Grid,
   GridItem,
   Icon,
@@ -10,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import {
   FaBars,
-  FaChevronRight,
+  FaAngleRight,
   FaHeadphonesAlt,
   FaMobileAlt,
   FaRegNewspaper,
@@ -32,7 +33,6 @@ function Categories() {
     const fetchCategoryData = async () => {
       try {
         const response = await axiosClient.get('/api/category');
-
         setData(response);
       } catch (error) {
         console.log('Failed to fetch category list: ', error);
@@ -78,129 +78,233 @@ function Categories() {
               margin='0 14px'
               fontSize={18}
             />
-            <Text fontSize='md'>DANH MỤC SẢN PHẨM</Text>
-            <div className='category__heading'>
-              <Image
-                className='category__icon-heading'
-                src='category-icon1.png'
-                alt='icon-category'
-              />
-              <Text fontSize='15px' fontWeight='500' color='#c8191f'>
-                Tin Khuyến Mãi
-              </Text>
-            </div>
-            {/* <div className='category-list'> */}
-            <UnorderedList m={0} className='category__list'>
-              <Link to='/' className='icon-link'>
+            <Text fontSize='md' color={'white'}>
+              DANH MỤC SẢN PHẨM
+            </Text>
+            <UnorderedList
+              position={'absolute'}
+              top='40px'
+              w={'280px'}
+              m='0'
+              zIndex={69}
+              bg='white'
+              className='category__list'>
+              <Link to='/'>
+                <ListItem className='list__item' listStyleType={'none'}>
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Image
+                        mx='10px'
+                        src='category-icon1.png'
+                        alt='icon-category'
+                      />
+                      <Text fontSize='15px' fontWeight='500' color='#c8191f'>
+                        Tin Khuyến Mãi
+                      </Text>
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
+                </ListItem>
+              </Link>
+              <Link to='/iphone'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='0'
                   onMouseOver={handleClick}>
-                  <Image
-                    className='category__icon'
-                    src='category-icon-apple.png'
-                    alt='icon-apple'></Image>
-                  iPhone
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Image
+                        className='category__icon'
+                        src='category-icon-apple.png'
+                        alt='icon-apple'></Image>
+                      iPhone
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/ipad'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='1'
                   onMouseOver={handleClick}>
-                  <Icon as={FaMobileAlt} className='category__icon' />
-                  iPad
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Icon as={FaMobileAlt} className='category__icon' />
+                      iPad
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/apple-watch'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='2'
                   onMouseOver={handleClick}>
-                  <Icon as={FiWatch} className='category__icon' />
-                  Apple Watch
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Icon as={FiWatch} m='0 12px' fontSize={'18px'} />
+                      <Text>Apple Watch</Text>
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='3'
                   onMouseOver={handleClick}>
-                  <Image
-                    className='category__icon'
-                    src='category-icon-laptop.png'
-                    alt='icon-macbook'></Image>
-                  MacBook
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Image
+                        className='category__icon'
+                        src='category-icon-laptop.png'
+                        alt='icon-macbook'></Image>
+                      MacBook
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='4'
                   onMouseOver={handleClick}>
-                  <Icon as={FaHeadphonesAlt} className='category__icon' />
-                  Airpods
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Icon as={FaHeadphonesAlt} className='category__icon' />
+                      Airpods
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/'>
                 <ListItem
-                  className='category__item'
+                  className='list__item'
+                  listStyleType={'none'}
                   id='5'
                   onMouseOver={handleClick}>
-                  <Image
-                    className='category__icon'
-                    src='category-icon-PC.png'
-                    alt='icon-PC'></Image>
-                  iMac, Mac
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Image
+                        className='category__icon'
+                        src='category-icon-PC.png'
+                        alt='icon-PC'></Image>
+                      iMac, Mac
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/'>
                 <ListItem
-                  className='category__item'
-                  id='5'
+                  className='list__item'
+                  listStyleType={'none'}
+                  id='6'
                   onMouseOver={handleClick}>
-                  <Image
-                    className='category__icon'
-                    src='category-icon-accessories.png'
-                    alt='icon-accessories'></Image>
-                  Phụ Kiện
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Image
+                        className='category__icon'
+                        src='category-icon-accessories.png'
+                        alt='icon-accessories'></Image>
+                      Phụ Kiện
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <Link to='/' className='icon-link'>
+              <Link to='/'>
                 <ListItem
-                  className='category__item'
-                  id='5'
+                  className='list__item'
+                  listStyleType={'none'}
+                  id='7'
                   onMouseOver={handleClick}>
-                  <Icon as={FaRegNewspaper} className='category__icon' />
-                  Tin Công Nghệ
+                  <Box
+                    display={'flex'}
+                    w={'100%'}
+                    h={'40px'}
+                    alignItems='center'
+                    justifyContent={'space-between'}>
+                    <Flex alignItems={'center'}>
+                      <Icon as={FaRegNewspaper} className='category__icon' />
+                      Tin Công Nghệ
+                    </Flex>
+                    <Icon as={FaAngleRight} className='category__icon-open' />
+                  </Box>
                 </ListItem>
-                <Icon as={FaChevronRight} className='category__icon-open' />
               </Link>
-              <div className='category__sub-menu'>
-                {/* {typeof id === Number ? (
-                  data[id]?.model?.map((item) => (
-                    <p className='category__item-sub' key={item?.id}>
-                      {item?.name}
-                    </p>
-                  ))
-                ) : (
-                  <div />
-                )} */}
-                {dataById?.model?.map((item) => (
-                  <p className='category__item-sub' key={item?.id}>
-                    {item?.name}
-                  </p>
+              <Box className='category__sub-menu'>
+                {dataById?.model?.map((item, index) => (
+                  <Link to={`/model/${item?.id}`}>
+                    <Flex
+                      minW={'180px'}
+                      h={'40px'}
+                      alignItems={'center'}
+                      justifyContent='space-between'
+                      _hover={{ bg: '#f5f5f5' }}>
+                      <Text
+                        p={'0 15px'}
+                        whiteSpace='nowrap'
+                        fontWeight='400'
+                        key={index}>
+                        {item?.name}
+                      </Text>
+                      <Icon as={FaAngleRight} mr='5px' />
+                    </Flex>
+                  </Link>
                 ))}
-              </div>
+              </Box>
             </UnorderedList>
-            {/* </div> */}
           </GridItem>
           <GridItem w='100%' h='100%' display='flex' alignItems='center'>
             <Box position='relative' left='10px' ml='1px'>

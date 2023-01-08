@@ -150,9 +150,14 @@ function SignInForm(props) {
                           onChange={handleChange}
                           id='password'
                           value={values.password}
-                          onKeyPress={(value) =>
-                            value.code === 'Enter' && handleSubmit()
-                          }
+                          // onKeyPress={(value) =>
+                          //   value.code === 'Enter' && handleSubmit()
+                          // }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleSubmit();
+                            }
+                          }}
                           focusBorderColor='black'
                         />
                         <FormErrorMessage>{errors.password}</FormErrorMessage>

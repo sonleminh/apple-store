@@ -52,7 +52,6 @@ function AdminProduct() {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState();
   const [productIndex, setProductIndex] = useState();
-
   const [fileInput, setFileInput] = useState('');
   const [selectedFile, setSelectedFile] = useState('');
   const [previewSource, setPreviewSource] = useState('');

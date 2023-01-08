@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
-import Product from '../../components/Product';
+import ProductList from '../../components/ProductList';
 import Category from '../Category';
 
 function Homepage() {
@@ -23,7 +23,7 @@ function Homepage() {
     <Box bg='#f0f0f0'>
       <Category />
       <Box>
-        <Product />
+        <ProductList />
       </Box>
     </Box>
   );

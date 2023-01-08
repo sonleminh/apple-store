@@ -163,9 +163,8 @@ function EditProductForm() {
                     <Box display={'flex'}>
                       {!previewSource ||
                         previewSource.map((image, index) => (
-                          <Box display={'flex'}>
+                          <Box display={'flex'} key={index}>
                             <Image
-                              key={index}
                               src={image}
                               alt='product-image'
                               w={'80px'}

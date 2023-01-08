@@ -37,9 +37,9 @@ function News() {
           </ListItem>
         </UnorderedList>
         <div className='dropdown-content'>
-          {data?.map((item) => (
+          {/* {data?.map((item) => (
             <p className='category-item_sub'>{item?.name}</p>
-          ))}
+          ))} */}
         </div>
         {/* {isShown && (
           <UnorderedList className='dropdown-content'>

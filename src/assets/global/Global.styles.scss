@@ -1,6 +1,6 @@
 :root {
     --primary-link: #ed1c24;
-    --primary: #c8191f;
+    --primary: #ed1c24;
 }
 
 * {
@@ -17,6 +17,9 @@ html {
 a {
     text-decoration: none;
     transition: .3s ease-out;
+    &:hover {
+        color: var(--primary);
+    }
 }
 
 textarea:focus,

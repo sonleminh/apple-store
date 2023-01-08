@@ -6,6 +6,7 @@ import App from './App';
 import './assets/global/Global.styles.scss';
 import { store, persistor } from './Redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { NumericFormat } from 'react-number-format';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
